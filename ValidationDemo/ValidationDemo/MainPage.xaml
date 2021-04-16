@@ -5,8 +5,13 @@
              x:Class="ValidationDemo.MainPage">
     <ContentPage.Resources>
         <ResourceDictionary>
-           
-           
+            <Style x:Key="InvalidStyle" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="red"></Setter>   
+            </Style>
+            <Style x:Key="ValidStyle" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="Green"></Setter>
+            </Style>
+            <xct:InvertedBoolConverter x:Key="invertedBoolConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -15,12 +20,16 @@
             <Label Text="Input Validation Demo" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
         </Frame>
         <Entry Margin="20">
-            
+            <Entry.Behaviors>
+                <xct:UriValidationBehavior UriKind="Absolute" InvalidStyle="{StaticResource InvalidStyle}" ValidStyle="{StaticResource ValidStyle}"/>
+            </Entry.Behaviors>
         </Entry>
         <Entry Margin="20">
-            
+            <Entry.Behaviors>
+                <xct:EmailValidationBehavior Flags="ValidateOnUnfocusing" IsValid="{Binding EmailValid}"/>
+            </Entry.Behaviors>
         </Entry>
-        
+        <Label Text="Email not valid" TextColor="Red" IsVisible="{Binding EmailValid, Converter={StaticResource invertedBoolConverter}}"/>
     </StackLayout>
 
 </ContentPage>
